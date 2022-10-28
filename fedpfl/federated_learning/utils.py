@@ -4,7 +4,7 @@ from typing import Any, Dict, Type, Union
 
 from flwr.server.strategy.strategy import Strategy
 
-from fedpfl.federated_learning import constants
+from fedpfl.federated_learning.constants import Algorithms
 from fedpfl.federated_learning.clients.base_client import BaseClient
 from fedpfl.federated_learning.clients.fedbabu_client import FedBABUClient
 from fedpfl.federated_learning.clients.fedper_client import FedPerClient
@@ -39,21 +39,21 @@ def load_config(config_file: Union[str, Path]) -> Dict[str, Any]:
 
 def get_client_cls(algorithm: str) -> Type[BaseClient]:
     """Get client class from algorithm (default is FedAvg)."""
-    if algorithm == constants.FEDPER:
+    if algorithm == Algorithms.FEDPER.value:
         return FedPerClient
-    elif algorithm == constants.LG_FEDAVG:
+    elif algorithm == Algorithms.LG_FEDAVG.value:
         return LGFedAvgClient
-    elif algorithm == constants.FEDREP:
+    elif algorithm == Algorithms.FEDREP.value:
         return FedRepClient
-    elif algorithm == constants.FEDBABU:
+    elif algorithm == Algorithms.FEDBABU.value:
         return FedBABUClient
-    elif algorithm == constants.PROPOSAL_HYBRID_AVGLG:
+    elif algorithm == Algorithms.PROPOSAL_HYBRID_AVGLG.value:
         return HybridAvgLGClient
-    elif algorithm == constants.PROPOSAL_HYBRID_AVGLG_DUAL:
+    elif algorithm == Algorithms.PROPOSAL_HYBRID_AVGLG_DUAL.value:
         return HybridAvgLGDualClient
-    elif algorithm == constants.PROPOSAL_HYBRID_BABULG_DUAL:
+    elif algorithm == Algorithms.PROPOSAL_HYBRID_BABULG_DUAL.value:
         return HybridBABULGDualClient
-    elif algorithm == constants.FEDAVG:
+    elif algorithm == Algorithms.FEDAVG.value:
         return BaseClient
     else:
         raise ValueError(f"No such algorithm: {algorithm}")
@@ -63,18 +63,18 @@ def get_server_strategy(algorithm: str) -> Strategy:
     Gets the server strategy pipeline corresponding to the received algorithm.
 
     Args:
-        algortithm: the federated algorithm to be performed.
+        algorithm: the federated algorithm to be performed.
 
     Returns:
         The pipeline to be used.
     """
-    if algorithm in [constants.FEDPER, constants.FEDREP, constants.FEDBABU]:
+    if algorithm in [Algorithms.FEDPER.value, Algorithms.FEDREP.value, Algorithms.FEDBABU.value]:
         return AggregateBodyStrategyPipeline
-    elif algorithm in [constants.LG_FEDAVG]:
+    elif algorithm in [Algorithms.LG_FEDAVG.value]:
         return AggregateHeadStrategyPipeline
-    elif algorithm in [constants.PROPOSAL_HYBRID_BABULG_DUAL]:
+    elif algorithm in [Algorithms.PROPOSAL_HYBRID_BABULG_DUAL.value]:
         return AggregateHybridBABULGStrategyPipeline
-    elif algorithm in [constants.FEDAVG, constants.PROPOSAL_HYBRID_AVGLG, constants.PROPOSAL_HYBRID_AVGLG_DUAL]:  # FedAvg, Proposal FedHybridAvgLG and Proposal FedHybridAvgLGDual
+    elif algorithm in [Algorithms.FEDAVG.value, Algorithms.PROPOSAL_HYBRID_AVGLG.value, Algorithms.PROPOSAL_HYBRID_AVGLG_DUAL.value]:  # FedAvg, Proposal FedHybridAvgLG and Proposal FedHybridAvgLGDual
         return DefaultStrategyPipeline
     else:
         raise ValueError(f"No such algorithm: {algorithm}")

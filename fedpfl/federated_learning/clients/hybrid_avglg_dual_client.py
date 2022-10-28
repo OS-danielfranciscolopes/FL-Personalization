@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from flwr.common import Scalar
 
-from fedpfl.federated_learning.constants import FEDAVG, LG_FEDAVG, PROPOSAL_HYBRID_AVGLG_DUAL
+from fedpfl.federated_learning.constants import Algorithms
 from fedpfl.federated_learning.clients.base_client import BaseClient
 from fedpfl.federated_learning.clients.hybrid_client import HybridClient
 from fedpfl.federated_learning.clients.lgfedavg_client import LGFedAvgClient
@@ -57,14 +57,14 @@ class HybridAvgLGDualClient(HybridClient, LGFedAvgClient):
                               In the case of FedHybridAvgLGDual the tag also includes which part of the algorithm\
                                 is being performed, either FedHybridAvgLGDual_FedAvg or FedHybridAvgLGDual_LG-FedAvg.
                 <model_train_part> - indicates the part of the model that is being trained (full, body, head).
-                This tag can be ignored if no difference in train behaviour is desired between federated algortihms.
+                This tag can be ignored if no difference in train behaviour is desired between federated algorithms.
         Returns:
             Dict with the train metrics.
         """
         if self.smaller_client:
             return BaseClient.perform_train(
                 self,
-                tag=f"{PROPOSAL_HYBRID_AVGLG_DUAL}_{FEDAVG}_full" if tag is None else tag
+                tag=f"{Algorithms.PROPOSAL_HYBRID_AVGLG_DUAL.value}_{Algorithms.FEDAVG.value}_full" if tag is None else tag
             )
 
         local_model = copy.deepcopy(self.model_manager.model.state_dict())
@@ -73,7 +73,7 @@ class HybridAvgLGDualClient(HybridClient, LGFedAvgClient):
 
         trn_results = BaseClient.perform_train(
             self,
-            tag=f"{PROPOSAL_HYBRID_AVGLG_DUAL}_{FEDAVG}_full" if tag is None else tag
+            tag=f"{Algorithms.PROPOSAL_HYBRID_AVGLG_DUAL.value}_{Algorithms.FEDAVG.value}_full" if tag is None else tag
         )
 
         self.server_body_parameters = copy.deepcopy(self.model_manager.model.body.state_dict())
@@ -82,7 +82,7 @@ class HybridAvgLGDualClient(HybridClient, LGFedAvgClient):
         self.model_manager.model.set_parameters(local_model)
         trn_results.update(LGFedAvgClient.perform_train(
             self,
-            tag=f"{PROPOSAL_HYBRID_AVGLG_DUAL}_{LG_FEDAVG}_full" if tag is None else tag
+            tag=f"{Algorithms.PROPOSAL_HYBRID_AVGLG_DUAL.value}_{Algorithms.LG_FEDAVG.value}_full" if tag is None else tag
         ))
 
         return trn_results

@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from flwr.common import Scalar
 
-from fedpfl.federated_learning.constants import DEFAULT_FT_EP, DEFAULT_TRAIN_EP, FEDBABU
+from fedpfl.federated_learning.constants import DEFAULT_FT_EP, DEFAULT_TRAIN_EP, Algorithms
 from fedpfl.federated_learning.clients.base_client import BaseClient
 
 
@@ -60,14 +60,14 @@ class FedBABUClient(BaseClient):
         Returns:
             Dict with the train metrics.
         """
-        epochs = self.config.get("epochs", {"full": DEFAULT_TRAIN_EP})
+        epochs = self.config.get("epochs", {"body": DEFAULT_TRAIN_EP})
         self.model_manager.model.use_fixed_head(True)
         self.model_manager.model.enable_body()
         self.model_manager.model.disable_fixed_head()
         return self.model_manager.train(
             train_id=self.train_id,
-            epochs=epochs.get("full", DEFAULT_TRAIN_EP),
-            tag=f"{FEDBABU}_body" if tag is None else tag
+            epochs=epochs.get("body", DEFAULT_TRAIN_EP),
+            tag=f"{Algorithms.FEDBABU.value}_body" if tag is None else tag
         )
 
     def evaluate(
@@ -110,7 +110,7 @@ class FedBABUClient(BaseClient):
             train_id=self.test_id,
             epochs=epochs.get("fine-tuning", DEFAULT_FT_EP),
             fine_tuning=True,
-            tag=f"{self.config.get('algorithm', FEDBABU)}_full"
+            tag=f"{self.config.get('algorithm', Algorithms.FEDBABU.value)}_full"
         )
 
         tst_results = self.model_manager.test(test_id=self.test_id)

@@ -4,7 +4,7 @@ from typing import Dict, List, Union
 import numpy as np
 import torch
 
-from fedpfl.federated_learning.constants import FEDPER
+from fedpfl.federated_learning.constants import Algorithms
 from fedpfl.federated_learning.clients.base_client import BaseClient
 
 
@@ -51,4 +51,4 @@ class FedPerClient(BaseClient):
         Returns:
             Dict with the train metrics.
         """
-        return super().perform_train(tag=f"{FEDPER}_full" if tag is None else tag)
+        return super().perform_train(tag=f"{Algorithms.FEDPER.value}_full" if tag is None else tag)

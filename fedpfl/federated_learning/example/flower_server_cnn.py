@@ -2,7 +2,7 @@ from typing import Any, Dict
 
 import flwr as fl
 
-from fedpfl.federated_learning import constants
+from fedpfl.federated_learning.constants import Algorithms
 from fedpfl.federated_learning.utils import load_config
 from fedpfl.federated_learning.example.model_cnn import DEVICE, CNNModelSplit, CNNNet
 from fedpfl.federated_learning.utils import get_server_strategy
@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     config = load_config("../../data/config.json")
 
-    algorithm = config.get("algorithm", constants.FEDAVG)
+    algorithm = config.get("algorithm", Algorithms.FEDAVG.value)
 
     # Get strategy
     strategy = get_server_strategy(algorithm=algorithm)

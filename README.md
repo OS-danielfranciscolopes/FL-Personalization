@@ -89,8 +89,8 @@ The client configurations can be defined in the [config file](/fedpfl/data/confi
 - `algorithm` -  the algorithm to use, one of: `"FedAvg"`, `"LG-FedAvg"`, `"FedPer"`, `"FedRep"`, `"FedBABU"`, `"FedHybridAvgLG"`, `"FedHybridBABULGDual"` or `"FedHybridAvgLGDual"`.
 - `hybrid_threshold` - the threshold for the hybrid algorithms (default is 2200).
 - `epochs` - number of training epochs for each model part:
-    - `full`  - number of epochs for the full model (used  in `"FedAvg"`, `"LG-FedAvg"`, `"FedPer"`, `"FedBABU"`, `"FedHybridAvgLG"`, `"FedHybridBABULGDual"` or `"FedHybridAvgLGDual"`).
-    - `body` number of training epochs for the body of the model (used in `"FedRep"`).
+    - `full`  - number of epochs for the full model (used  in `"FedAvg"`, `"LG-FedAvg"`, `"FedPer"`, `"FedHybridAvgLG"`, `"FedHybridBABULGDual"` or `"FedHybridAvgLGDual"`).
+    - `body` number of training epochs for the body of the model (used in `"FedRep"` and `"FedBABU"`).
     - `head` number of training epochs for the head of the model (used in `"FedRep"`).
     - `fine-tuning` number of training epochs for the fine-tuning of the model (used in all models).
 - `fine-tuning` - whether fine-tuning should be performed to the full model before evaluation (`True`) or not (`False`) (`"FedBABU"` always performs fine-tuning before evaluation).

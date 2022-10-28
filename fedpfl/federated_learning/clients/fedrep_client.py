@@ -4,7 +4,7 @@ from typing import Dict, List, Union
 import numpy as np
 import torch
 
-from fedpfl.federated_learning.constants import DEFAULT_TRAIN_EP, FEDREP
+from fedpfl.federated_learning.constants import DEFAULT_TRAIN_EP, Algorithms
 from fedpfl.federated_learning.clients.base_client import BaseClient
 
 
@@ -57,7 +57,7 @@ class FedRepClient(BaseClient):
         train_results = self.model_manager.train(
             train_id=self.train_id,
             epochs=epochs.get("head", DEFAULT_TRAIN_EP),
-            tag=f"{FEDREP}_head" if tag is None else tag
+            tag=f"{Algorithms.FEDREP.value}_head" if tag is None else tag
         )
         self.model_manager.model.enable_body()
         self.model_manager.model.disable_head()
@@ -65,7 +65,7 @@ class FedRepClient(BaseClient):
             self.model_manager.train(
                 train_id=self.train_id,
                 epochs=epochs.get("body", DEFAULT_TRAIN_EP),
-                tag=f"{FEDREP}_body" if tag is None else tag
+                tag=f"{Algorithms.FEDREP.value}_body" if tag is None else tag
             )
         )
         return train_results

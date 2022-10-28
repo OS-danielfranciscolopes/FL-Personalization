@@ -4,7 +4,6 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import torch
 from flwr.common import FitRes, Parameters, Scalar, parameters_to_weights
-from flwr.common.logger import log
 from flwr.server.client_proxy import ClientProxy
 
 from fedpfl.federated_learning.strategy.initialization_strategy import (

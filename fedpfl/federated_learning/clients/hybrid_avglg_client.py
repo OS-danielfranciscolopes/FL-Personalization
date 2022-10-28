@@ -2,7 +2,7 @@ from typing import Dict, List, Union
 
 import numpy as np
 
-from fedpfl.federated_learning.constants import PROPOSAL_HYBRID_AVGLG
+from fedpfl.federated_learning.constants import Algorithms
 from fedpfl.federated_learning.clients.base_client import BaseClient
 from fedpfl.federated_learning.clients.hybrid_client import HybridClient
 from fedpfl.federated_learning.clients.lgfedavg_client import LGFedAvgClient
@@ -43,4 +43,4 @@ class HybridAvgLGClient(HybridClient, LGFedAvgClient):
         Returns:
             Dict with the train metrics.
         """
-        return super().perform_train(tag=f"{PROPOSAL_HYBRID_AVGLG}_full" if tag is None else tag)
+        return super().perform_train(tag=f"{Algorithms.PROPOSAL_HYBRID_AVGLG.value}_full" if tag is None else tag)

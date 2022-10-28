@@ -1,14 +1,16 @@
 from pathlib import Path
+from enum import Enum
 
 # FL Algorithms
-FEDAVG = "FedAvg"
-LG_FEDAVG = "LG-FedAvg"
-FEDPER = "FedPer"
-FEDREP = "FedRep"
-FEDBABU = "FedBABU"
-PROPOSAL_HYBRID_AVGLG = "FedHybridAvgLG"
-PROPOSAL_HYBRID_AVGLG_DUAL = "FedHybridAvgLGDual"
-PROPOSAL_HYBRID_BABULG_DUAL = "FedHybridBABULGDual"
+class Algorithms(Enum):
+    FEDAVG = "FedAvg"
+    LG_FEDAVG = "LG-FedAvg"
+    FEDPER = "FedPer"
+    FEDREP = "FedRep"
+    FEDBABU = "FedBABU"
+    PROPOSAL_HYBRID_AVGLG = "FedHybridAvgLG"
+    PROPOSAL_HYBRID_AVGLG_DUAL = "FedHybridAvgLGDual"
+    PROPOSAL_HYBRID_BABULG_DUAL = "FedHybridBABULGDual"
 
 # FL Default Train and Fine-Tuning Epochs
 DEFAULT_TRAIN_EP = 5

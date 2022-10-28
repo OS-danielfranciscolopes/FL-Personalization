@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from flwr.common import Scalar
 
-from fedpfl.federated_learning.constants import FEDBABU, LG_FEDAVG, PROPOSAL_HYBRID_BABULG_DUAL
+from fedpfl.federated_learning.constants import Algorithms
 from fedpfl.federated_learning.clients.fedbabu_client import FedBABUClient
 from fedpfl.federated_learning.clients.hybrid_client import HybridClient
 from fedpfl.federated_learning.clients.lgfedavg_client import LGFedAvgClient
@@ -83,19 +83,19 @@ class HybridBABULGDualClient(HybridClient, FedBABUClient, LGFedAvgClient):
                               In the case of FedHybridAvgLGDual the tag also includes which part of the algorithm\
                                 is being performed, either FedHybridAvgLGDual_FedAvg or FedHybridAvgLGDual_LG-FedAvg.
                 <model_train_part> - indicates the part of the model that is being trained (full, body, head).
-                This tag can be ignored if no difference in train behaviour is desired between federated algortihms.
+                This tag can be ignored if no difference in train behaviour is desired between federated algorithms.
         Returns:
             Dict with the train metrics.
         """
         if self.smaller_client:
             return FedBABUClient.perform_train(
                 self,
-                tag=f"{PROPOSAL_HYBRID_BABULG_DUAL}_{FEDBABU}_body" if tag is None else tag
+                tag=f"{Algorithms.PROPOSAL_HYBRID_BABULG_DUAL.value}_{Algorithms.FEDBABU.value}_body" if tag is None else tag
             )
         self.model_manager.model.use_fixed_head(False)
         trn_results = LGFedAvgClient.perform_train(
             self,
-            tag=f"{PROPOSAL_HYBRID_BABULG_DUAL}_{LG_FEDAVG}_full" if tag is None else tag
+            tag=f"{Algorithms.PROPOSAL_HYBRID_BABULG_DUAL.value}_{Algorithms.LG_FEDAVG.value}_full" if tag is None else tag
         )
 
         local_body = copy.deepcopy(self.model_manager.model.body.state_dict())
@@ -105,7 +105,7 @@ class HybridBABULGDualClient(HybridClient, FedBABUClient, LGFedAvgClient):
         trn_results.update(
             FedBABUClient.perform_train(
                 self,
-                tag=f"{PROPOSAL_HYBRID_BABULG_DUAL}_{FEDBABU}_body" if tag is None else tag
+                tag=f"{Algorithms.PROPOSAL_HYBRID_BABULG_DUAL.value}_{Algorithms.FEDBABU.value}_body" if tag is None else tag
             )
         )
 
